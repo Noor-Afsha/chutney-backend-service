@@ -1,10 +1,10 @@
 package in.co.application.chutneyApplication.service;
 
-import com.itextpdf.kernel.pdf.*;
-import com.itextpdf.layout.*;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import org.springframework.stereotype.Service;
-
 import java.io.ByteArrayOutputStream;
 
 @Service
@@ -20,7 +20,7 @@ public class PdfService {
             PdfDocument pdfDoc = new PdfDocument(writer);
             Document document = new Document(pdfDoc);
 
-            document.add(new Paragraph("GHAR KI CHUTNEY"));
+            document.add(new Paragraph("GHAR KI RASOI"));
             document.add(new Paragraph("Order Invoice"));
             document.add(new Paragraph("Order ID: " + orderId));
             document.add(new Paragraph("Customer: " + name));
