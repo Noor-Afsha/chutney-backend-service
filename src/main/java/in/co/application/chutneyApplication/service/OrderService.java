@@ -106,4 +106,11 @@ public class OrderService {
 
         return savedOrder;
     }
+    public Orders getOrderById(Long id) {
+        return orderRepository.findById(id).orElse(null);
+    }
+
+    public Orders updateOrder(Orders order) {
+        return orderRepository.save(order);
+    }
 }

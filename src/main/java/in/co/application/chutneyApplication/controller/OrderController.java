@@ -23,4 +23,24 @@ public class OrderController {
         return new ApiResponse<>(200, true, "Order placed successfully", order
         );
     }
+
+    @PostMapping("/{orderId}/pay")
+    public ApiResponse<String> payOrder(@PathVariable Long orderId) {
+        Orders order = orderService.getOrderById(orderId);
+        if(order == null) {
+            return new ApiResponse<>(404, false, "Order not found", null);
+        }
+
+        // Simulate scanner payment success
+        order.setStatus("PAID");
+        orderService.updateOrder(order);
+
+        // Generate dummy receipt
+        String receipt = "Receipt\nOrder ID: " + order.getId() +
+                "\nName: " + order.getName() +
+                "\nAmount: " + order.getTotalAmount() +
+                "\nStatus: " + order.getStatus();
+
+        return new ApiResponse<>(200, true, "Payment successful", receipt);
+    }
 }
