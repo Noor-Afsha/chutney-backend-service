@@ -73,7 +73,7 @@ public class OrderService {
             JSONObject options = new JSONObject();
             options.put("amount", dto.getTotalAmount() * 100);
             options.put("currency", "INR");
-            options.put("receipt", savedOrder.getId());
+            options.put("receipt", savedOrder.getRazorpayOrderId());
 
             Order razorpayOrder = client.orders.create(options);
             savedOrder.setRazorpayOrderId(razorpayOrder.get("id"));
@@ -181,10 +181,8 @@ public class OrderService {
                     html,
                     pdf
             );
-
             return true;
         }
-
         return false;
     }
 }
