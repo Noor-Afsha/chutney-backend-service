@@ -11,16 +11,15 @@ public class Orders {
     private Long id;
 
     private String name;
-
     private String phone;
-
     private String address;
-
     private Double totalAmount;
-
     private String status;
     private String country;
     private String email;
+    private String razorpayOrderId;
+    private String razorpayPaymentId;
+    private String razorpaySignature;
 
     public Long getId() {
         return id;
@@ -80,5 +79,30 @@ public class Orders {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    public String getRazorpayOrderId() {
+        return razorpayOrderId;
+    }
+
+    public void setRazorpayOrderId(String razorpayOrderId) {
+        this.razorpayOrderId = razorpayOrderId;
+    }
+
+    public String getRazorpayPaymentId() {
+        return razorpayPaymentId;
+    }
+
+    public void setRazorpayPaymentId(String razorpayPaymentId) {
+        this.razorpayPaymentId = razorpayPaymentId;
+    }
+
+    public String getRazorpaySignature() {
+        return razorpaySignature;
+    }
+
+    public void setRazorpaySignature(String razorpaySignature) {
+        this.razorpaySignature = razorpaySignature;
     }
 }
