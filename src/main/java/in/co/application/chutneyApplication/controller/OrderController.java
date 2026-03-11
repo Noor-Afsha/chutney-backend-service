@@ -8,6 +8,7 @@ import in.co.application.chutneyApplication.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,5 +40,37 @@ public class OrderController {
             return new ApiResponse<>(200, true, "Payment Successful", null);
         }
         return new ApiResponse<>(400, false, "Payment Failed", null);
+    }
+
+    @GetMapping("/orders/{phone}")
+    public List<Orders> getOrdersByPhone(@PathVariable String phone) {
+        return orderService.getOrdersByPhone(phone);
+    }
+    @GetMapping("/admin/orders")
+    public ApiResponse<List<Orders>> getAllOrders() {
+
+        List<Orders> orders = orderService.getAllOrders();
+
+        return new ApiResponse<>(
+                200,
+                true,
+                "Orders fetched successfully",
+                orders
+        );
+    }
+
+    //for admin pannel
+    @PutMapping("/admin/orders/{id}")
+    public ApiResponse<Orders> updateStatus(@PathVariable Long id,
+                                            @RequestBody Map<String,String> body){
+
+        Orders updatedOrder = orderService.updateOrderStatus(id, body.get("status"));
+
+        return new ApiResponse<>(
+                200,
+                true,
+                "Order status updated successfully",
+                updatedOrder
+        );
     }
 }

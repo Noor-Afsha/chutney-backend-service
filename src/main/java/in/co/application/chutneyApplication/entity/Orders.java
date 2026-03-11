@@ -2,6 +2,8 @@ package in.co.application.chutneyApplication.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "orders")
 public class Orders {
@@ -20,7 +22,20 @@ public class Orders {
     private String razorpayOrderId;
     private String razorpayPaymentId;
     private String razorpaySignature;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
+        status = "CREATED";
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
     public Long getId() {
         return id;
     }
@@ -104,5 +119,12 @@ public class Orders {
 
     public void setRazorpaySignature(String razorpaySignature) {
         this.razorpaySignature = razorpaySignature;
+    }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

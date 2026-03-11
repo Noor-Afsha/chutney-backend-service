@@ -14,6 +14,8 @@ import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import org.json.JSONObject;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class OrderService {
@@ -184,5 +186,18 @@ public class OrderService {
             return true;
         }
         return false;
+    }
+
+    public List<Orders> getOrdersByPhone(String phone) {
+        return orderRepository.findByPhoneOrderByCreatedAtDesc(phone);
+    }
+    public List<Orders> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    public Orders updateOrderStatus(Long id, String status) {
+        Orders order = orderRepository.findById(id).orElseThrow();
+        order.setStatus(status);
+        return orderRepository.save(order);
     }
 }
