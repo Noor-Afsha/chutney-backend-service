@@ -1,4 +1,5 @@
 package in.co.application.chutneyApplication.dto;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderRequestDto {
@@ -10,7 +11,8 @@ public class OrderRequestDto {
     private String country;
     private List<OrderItemDto> items;
     private String email;
-
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     public String getEmail() {
         return email;
     }
@@ -64,5 +66,21 @@ public class OrderRequestDto {
 
     public void setItems(List<OrderItemDto> items) {
         this.items = items;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

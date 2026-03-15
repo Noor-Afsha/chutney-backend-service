@@ -1,5 +1,6 @@
 package in.co.application.chutneyApplication.entity;
 
+import in.co.application.chutneyApplication.commons.OrderStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,8 @@ public class Orders {
     private String phone;
     private String address;
     private Double totalAmount;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
     private String country;
     private String email;
     private String razorpayOrderId;
@@ -25,15 +27,13 @@ public class Orders {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         createdAt = LocalDateTime.now();
-        status = "CREATED";
     }
 
     @PreUpdate
-    public void onUpdate() {
+    public void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
     public Long getId() {
@@ -70,14 +70,6 @@ public class Orders {
 
     public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getCountry() {
@@ -120,11 +112,27 @@ public class Orders {
     public void setRazorpaySignature(String razorpaySignature) {
         this.razorpaySignature = razorpaySignature;
     }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 }

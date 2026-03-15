@@ -1,6 +1,9 @@
 package in.co.application.chutneyApplication.service;
 
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
 import com.razorpay.Utils;
+import in.co.application.chutneyApplication.commons.OrderStatus;
 import in.co.application.chutneyApplication.dto.OrderRequestDto;
 import in.co.application.chutneyApplication.entity.OrderItem;
 import in.co.application.chutneyApplication.entity.Orders;
@@ -8,12 +11,11 @@ import in.co.application.chutneyApplication.repository.CartRepository;
 import in.co.application.chutneyApplication.repository.OrderItemRepository;
 import in.co.application.chutneyApplication.repository.OrderRepository;
 import jakarta.transaction.Transactional;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.razorpay.Order;
-import com.razorpay.RazorpayClient;
-import org.json.JSONObject;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,7 +43,7 @@ public class OrderService {
         this.pdfService = pdfService;
     }
 
-    public Orders placeOrder(OrderRequestDto dto) {
+    public Orders placeOrder(OrderRequestDto dto) throws Throwable {
 
         try {
 
@@ -53,7 +55,9 @@ public class OrderService {
             order.setCountry(dto.getCountry());
             order.setTotalAmount(dto.getTotalAmount());
             order.setEmail(dto.getEmail());
-            order.setStatus("CREATED");
+            order.setStatus(OrderStatus.PLACED);
+            order.setCreatedAt(LocalDateTime.now());
+            order.setUpdatedAt(LocalDateTime.now());
 
             Orders savedOrder = orderRepository.save(order);
 
@@ -84,7 +88,7 @@ public class OrderService {
 
         } catch (Exception ex) {
             System.out.println("RAZORPAY ERROR: " + ex.getMessage());
-            throw new RuntimeException("Unable to connect to payment gateway. Please try again later.");
+            throw new Throwable("Unable to connect to payment gateway. Please try again later.");
         }
     }
 
@@ -105,7 +109,7 @@ public class OrderService {
             }
             order.setRazorpayPaymentId(paymentId);
             order.setRazorpaySignature(signature);
-            order.setStatus("PAID");
+            order.setStatus(OrderStatus.PAID);
 
             orderRepository.save(order);
 
@@ -197,7 +201,7 @@ public class OrderService {
 
     public Orders updateOrderStatus(Long id, String status) {
         Orders order = orderRepository.findById(id).orElseThrow();
-        order.setStatus(status);
+        order.setStatus(OrderStatus.valueOf(status));
         return orderRepository.save(order);
     }
 }

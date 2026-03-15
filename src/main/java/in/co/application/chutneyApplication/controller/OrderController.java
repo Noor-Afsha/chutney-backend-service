@@ -23,7 +23,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ApiResponse<Orders> placeOrder(@Valid @RequestBody OrderRequestDto dto) throws Exception {
+    public ApiResponse<Orders> placeOrder(@Valid @RequestBody OrderRequestDto dto) throws Throwable {
         Orders order = orderService.placeOrder(dto);
         return new ApiResponse<>(200, true, "Order created", order);
     }
@@ -42,35 +42,8 @@ public class OrderController {
         return new ApiResponse<>(400, false, "Payment Failed", null);
     }
 
-    @GetMapping("/orders/{phone}")
+    @GetMapping("/{phone}")
     public List<Orders> getOrdersByPhone(@PathVariable String phone) {
         return orderService.getOrdersByPhone(phone);
-    }
-    @GetMapping("/admin/orders")
-    public ApiResponse<List<Orders>> getAllOrders() {
-
-        List<Orders> orders = orderService.getAllOrders();
-
-        return new ApiResponse<>(
-                200,
-                true,
-                "Orders fetched successfully",
-                orders
-        );
-    }
-
-    //for admin pannel
-    @PutMapping("/admin/orders/{id}")
-    public ApiResponse<Orders> updateStatus(@PathVariable Long id,
-                                            @RequestBody Map<String,String> body){
-
-        Orders updatedOrder = orderService.updateOrderStatus(id, body.get("status"));
-
-        return new ApiResponse<>(
-                200,
-                true,
-                "Order status updated successfully",
-                updatedOrder
-        );
     }
 }
