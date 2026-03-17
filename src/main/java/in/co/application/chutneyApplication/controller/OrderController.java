@@ -46,4 +46,26 @@ public class OrderController {
     public List<Orders> getOrdersByPhone(@PathVariable String phone) {
         return orderService.getOrdersByPhone(phone);
     }
+
+    @PutMapping("/{orderId}/cancel")
+    public ApiResponse<String> cancelOrder(@PathVariable Long orderId) {
+
+        orderService.cancelOrder(orderId);
+
+        return new ApiResponse<>(200, true, "Order Cancelled", null);
+    }
+    @GetMapping("/{orderId}/invoice")
+    public ApiResponse<Orders> getInvoice(@PathVariable Long orderId) {
+
+        Orders order = orderService.getOrderById(orderId);
+
+        return new ApiResponse<>(200, true, "Invoice fetched", order);
+    }
+    @GetMapping("/{orderId}/track")
+    public ApiResponse<Orders> trackOrder(@PathVariable Long orderId) {
+
+        Orders order = orderService.getOrderById(orderId);
+
+        return new ApiResponse<>(200, true, "Tracking info", order);
+    }
 }

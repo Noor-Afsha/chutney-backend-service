@@ -204,4 +204,18 @@ public class OrderService {
         order.setStatus(OrderStatus.valueOf(status));
         return orderRepository.save(order);
     }
+    public void cancelOrder(Long orderId) {
+
+        Orders order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        order.setStatus(OrderStatus.CANCELLED);
+
+        orderRepository.save(order);
+    }
+    public Orders getOrderById(Long orderId) {
+
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+    }
 }
